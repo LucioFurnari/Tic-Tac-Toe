@@ -67,4 +67,17 @@ body {
 .square {
     background-color: aqua;
     border: 1px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.cross {
+	background-color: brown;
+	font-size: 10rem;
+	text-align: center;
+}
+.circle {
+	background-color: blueviolet;
+	font-size: 10rem;
+	text-align: center;
 }
