@@ -1,8 +1,15 @@
 function Player(name,marker,playerClass,indexArray) {
     let win = 0;
+    let lose = 0;
+    let tie = 0;
     function winCount() {
         win = win + 1;
-        console.log(win);
+    }
+    function loseCount() {
+        lose = lose + 1;
+    }
+    function tieCount() {
+        tie = tie + 1;
     }
 
     return {
@@ -11,6 +18,8 @@ function Player(name,marker,playerClass,indexArray) {
         playerClass,
         indexArray,
         winCount,
+        loseCount,
+        tieCount,
     }
 }
 const playerX = Player("Player One","X","cross",[]);
@@ -22,6 +31,15 @@ const gameBoard = (function() {
                 "","",""];
     let changeMarker = true;
 
+    function checkResult(result) {
+        if(result == playerX){
+            console.log("Win PlayerX");
+        } else if (result == playerO){
+            console.log("Win PlayerO");
+        } else {
+            console.log("Empate");
+        }
+    }
     function winCondition (array,one,two,three) {
         let oneIsValid = array.includes(one);
         let twoIsValid = array.includes(two)
@@ -35,29 +53,35 @@ const gameBoard = (function() {
         switch (true) {
             case winCondition(player.indexArray,0,1,2):
                 displayController.displayResult(player.name,"Win")
-                player.winCount();
+                return player
                 break;
             case winCondition(player.indexArray,3,4,5):
                 displayController.displayResult(player.name,"Win")
-                player.winCount();
+                return player
                 break;
             case winCondition(player.indexArray,6,7,8):
                 displayController.displayResult(player.name,"Win")
+                return player
                 break;
             case winCondition(player.indexArray,0,3,6):
                 displayController.displayResult(player.name,"Win")
+                return player
                 break;
             case winCondition(player.indexArray,1,4,7):
                 displayController.displayResult(player.name,"Win")
+                return player
                 break;
             case winCondition(player.indexArray,2,5,8):
                 displayController.displayResult(player.name,"Win")
+                return player
                 break;
             case winCondition(player.indexArray,0,4,8):
                 displayController.displayResult(player.name,"Win")
+                return player
                 break;
             case winCondition(player.indexArray,2,4,6):
                 displayController.displayResult(player.name,"Win")
+                return player
                 break;
             default:
                 break;
@@ -67,10 +91,10 @@ const gameBoard = (function() {
     function gameCheck(index,markerPlayer) {
         if(markerPlayer == playerX.marker) {
             playerX.indexArray.push(index)
-            winnerCheck(playerX)
+            checkResult(winnerCheck(playerX))
         } else if (markerPlayer == playerO.marker) {
             playerO.indexArray.push(index)
-            winnerCheck(playerO)
+            checkResult(winnerCheck(playerO))
         }
     }
 
@@ -84,10 +108,8 @@ const gameBoard = (function() {
             } else {
                 board[i] = marker;
                 gameCheck(i,marker)
-                console.log(markStyle);
                 displayController.displayMarker(marker,markStyle,event)
                 changeMarker = !changeMarker;
-                console.log(board);
             }
         }})
     }
