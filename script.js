@@ -11,10 +11,6 @@ function Player(name,marker,playerClass,indexArray) {
     function tieCount() {
         tie = tie + 1;
     }
-    function resetArray() {
-        indexArray = indexArray.splice(0,indexArray.length)
-        console.log(indexArray);
-    }
     return {
         name,
         marker,
@@ -23,7 +19,9 @@ function Player(name,marker,playerClass,indexArray) {
         winCount,
         loseCount,
         tieCount,
-        resetArray,
+        resetArray: function(){
+            this.indexArray = [];
+        },
     }
 }
 const playerX = Player("Player One","X","cross",[]);
@@ -40,6 +38,9 @@ const gameBoard = (function() {
     let winPlayer;
     let losePlayer;
     let playsCont = 9;
+
+    let playerOneIndexArray = []
+    let playerTwoIndexArray = [];
     
     function resetGameVariables() {
         board.fill("")
@@ -138,6 +139,7 @@ const gameBoard = (function() {
                 board[i] = marker;
                 playsCont = playsCont - 1;
                 gameCheck(i,marker);
+                console.log(playerX.indexArray);
                 displayController.displayMarker(marker,markStyle,event);
                 changeMarker = !changeMarker;
                 }
