@@ -137,10 +137,8 @@ const gameBoard = (function() {
                 } else {
                 board[i] = marker;
                 playsCont = playsCont - 1;
-                console.log("test");
-                console.log(playerX.indexArray);
-                gameCheck(i,marker)
-                displayController.displayMarker(marker,markStyle,event)
+                gameCheck(i,marker);
+                displayController.displayMarker(marker,markStyle,event);
                 changeMarker = !changeMarker;
                 }
             }})
@@ -156,18 +154,25 @@ const displayController = (function() {
     const playerResult = document.querySelector(".playerResult");
     const resetButton = document.querySelector(".resetBtn");
 
-    resetButton.addEventListener("click",resetGame)
+    const boardOverlay = document.querySelector(".overlay");
+    const resultBoard = document.querySelector(".result-board");
 
+    resetButton.addEventListener("click",resetGame)
+    boardOverlay.addEventListener("click",() => {
+        boardOverlay.classList.remove("active");
+        resultBoard.classList.remove("active");
+    })
     function resetGame() {
         gameBoard.resetGameVariables()
         while (gameboardGrid.firstChild) {
             gameboardGrid.removeChild(gameboardGrid.firstChild)
         }
-        console.log(gameBoard.board);
         displayBoard(gameBoard.board)
     }
 
     function displayResult(player,result){
+        boardOverlay.classList.add("active");
+        resultBoard.classList.add("active");
         playerResult.textContent = player + result;
     }
     
