@@ -1,27 +1,21 @@
 function Player(name,marker,playerClass,indexArray) {
     let win = 0;
-    let lose = 0;
-    let tie = 0;
-    function winCount() {
-        win = win + 1;
-    }
-    function loseCount() {
-        lose = lose + 1;
-    }
-    function tieCount() {
-        tie = tie + 1;
-    }
+
     return {
         name,
         marker,
         playerClass,
         indexArray,
-        winCount,
-        loseCount,
-        tieCount,
+        winCount: function() {
+            this.win = this.win + 1;
+        },
         resetArray: function(){
             this.indexArray = [];
         },
+        resetWinCount: function() {
+            this.win = 0;
+        },
+        win,
     }
 }
 const playerX = Player("Player One","X","cross",[]);
@@ -55,25 +49,19 @@ const gameBoard = (function() {
 
     function checkResult(result) {
         if(result == playerX){
-            console.log("Win PlayerX");
             winPlayer = playerX.name;
             losePlayer = playerO.name;
             playerX.winCount();
-            playerO.loseCount();
             displayController.displayResult(winPlayer, " Win")
             finishGame = true;
         } else if (result == playerO){
-            console.log("Win PlayerO");
             winPlayer = playerO.name;
             losePlayer = playerX.name;
             playerO.winCount();
-            playerX.loseCount();
             displayController.displayResult(winPlayer, " Win")
             finishGame = true;
         } else if(playsCont == 0 ) {
             finishGame = true;
-            playerX.tieCount();
-            playerO.tieCount();
             displayController.displayResult("", " Tie")
         }
     }
@@ -159,10 +147,22 @@ const displayController = (function() {
     const boardOverlay = document.querySelector(".overlay");
     const resultBoard = document.querySelector(".result-board");
 
-    resetButton.addEventListener("click",resetGame)
+    document.querySelector(".playerOneName").textContent = playerX.name;
+    document.querySelector(".playerTwoName").textContent = playerO.name;
+    document.querySelector(".playerOneScore").textContent = playerX.win;
+    document.querySelector(".playerTwoScore").textContent = playerO.win;
+
+    resetButton.addEventListener("click",() => {
+        resetGame()
+        playerX.resetWinCount();
+        playerO.resetWinCount();
+        document.querySelector(".playerOneScore").textContent = playerX.win;
+        document.querySelector(".playerTwoScore").textContent = playerO.win;
+    })
     boardOverlay.addEventListener("click",() => {
         boardOverlay.classList.remove("active");
         resultBoard.classList.remove("active");
+        resetGame()
     })
     function resetGame() {
         gameBoard.resetGameVariables()
@@ -176,6 +176,8 @@ const displayController = (function() {
         boardOverlay.classList.add("active");
         resultBoard.classList.add("active");
         playerResult.textContent = player + result;
+        document.querySelector(".playerOneScore").textContent = playerX.win;
+        document.querySelector(".playerTwoScore").textContent = playerO.win;
     }
     
     function displayMarker(mark,style,event) {
