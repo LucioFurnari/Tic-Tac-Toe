@@ -30,13 +30,30 @@ const gameBoard = (function() {
                 "","","",
                 "","",""];
     let changeMarker = true;
+    let finishGame = false;
+    let winPlayer;
+    let losePlayer;
+    let playsCont = 9;
 
     function checkResult(result) {
         if(result == playerX){
             console.log("Win PlayerX");
+            winPlayer = playerX;
+            losePlayer = playerO;
+            playerX.winCount();
+            playerO.loseCount():
+            finishGame = true;
         } else if (result == playerO){
             console.log("Win PlayerO");
-        } else {
+            winPlayer = playerO;
+            losePlayer = playerX;
+            playerO.winCount();
+            playerX.loseCount();
+            finishGame = true;
+        } else if(playsCont == 0 ) {
+            finishGame = true;
+            playerX.tieCount();
+            playerO.tieCount();
             console.log("Empate");
         }
     }
@@ -101,21 +118,26 @@ const gameBoard = (function() {
     function addMarker(event,playerOne,playerTwo) {
         let marker = changeMarker ? playerOne.marker : playerTwo.marker;
         let markStyle = changeMarker ? playerOne.playerClass : playerTwo.playerClass;
-        board.map((elem,i) => {
-        if(event.target.getAttribute("number") == i){
-            if(board[i] == playerOne.marker || board[i] == playerTwo.marker){
+        if(!finishGame) {
+            board.map((elem,i) => {
+            if(event.target.getAttribute("number") == i){
+                if(board[i] == playerOne.marker || board[i] == playerTwo.marker){
                 return
-            } else {
+                } else {
                 board[i] = marker;
+                playsCont = playsCont - 1;
+                console.log("test");
                 gameCheck(i,marker)
                 displayController.displayMarker(marker,markStyle,event)
                 changeMarker = !changeMarker;
-            }
-        }})
+                }
+            }})
+        }
     }
     return {board, addMarker}
 })()
 
+/*--------------------- Visual Module ----------------------------*/
 
 const displayController = (function() {
     const gameboardGrid = document.querySelector(".gameboard");
