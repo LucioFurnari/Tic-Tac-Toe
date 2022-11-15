@@ -11,7 +11,10 @@ function Player(name,marker,playerClass,indexArray) {
     function tieCount() {
         tie = tie + 1;
     }
-
+    function resetArray() {
+        indexArray = indexArray.splice(0,indexArray.length)
+        console.log(indexArray);
+    }
     return {
         name,
         marker,
@@ -20,6 +23,7 @@ function Player(name,marker,playerClass,indexArray) {
         winCount,
         loseCount,
         tieCount,
+        resetArray,
     }
 }
 const playerX = Player("Player One","X","cross",[]);
@@ -36,6 +40,17 @@ const gameBoard = (function() {
     let winPlayer;
     let losePlayer;
     let playsCont = 9;
+    
+    function resetGameVariables() {
+        board.fill("")
+        playerX.resetArray();
+        playerO.resetArray();
+        changeMarker = true;
+        finishGame = false;
+        winPlayer = undefined;
+        losePlayer = undefined;
+        playsCont = 9;
+    }
 
     function checkResult(result) {
         if(result == playerX){
@@ -123,6 +138,7 @@ const gameBoard = (function() {
                 board[i] = marker;
                 playsCont = playsCont - 1;
                 console.log("test");
+                console.log(playerX.indexArray);
                 gameCheck(i,marker)
                 displayController.displayMarker(marker,markStyle,event)
                 changeMarker = !changeMarker;
@@ -130,7 +146,7 @@ const gameBoard = (function() {
             }})
         }
     }
-    return {board, addMarker}
+    return {board, addMarker, resetGameVariables}
 })()
 
 /*--------------------- Visual Module ----------------------------*/
@@ -141,9 +157,9 @@ const displayController = (function() {
     const resetButton = document.querySelector(".resetBtn");
 
     resetButton.addEventListener("click",resetGame)
-    
+
     function resetGame() {
-        gameBoard.board.fill("");
+        gameBoard.resetGameVariables()
         while (gameboardGrid.firstChild) {
             gameboardGrid.removeChild(gameboardGrid.firstChild)
         }
