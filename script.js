@@ -41,7 +41,7 @@ const gameBoard = (function() {
             winPlayer = playerX;
             losePlayer = playerO;
             playerX.winCount();
-            playerO.loseCount():
+            playerO.loseCount();
             finishGame = true;
         } else if (result == playerO){
             console.log("Win PlayerO");
