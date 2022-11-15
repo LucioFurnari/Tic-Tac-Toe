@@ -25,6 +25,8 @@ function Player(name,marker,playerClass,indexArray) {
 const playerX = Player("Player One","X","cross",[]);
 const playerO = Player("Player Two","O","circle",[]);
 
+/*--------------------- Logic Module ----------------------------*/
+
 const gameBoard = (function() {
     let board = ["","","",
                 "","","",
@@ -38,23 +40,25 @@ const gameBoard = (function() {
     function checkResult(result) {
         if(result == playerX){
             console.log("Win PlayerX");
-            winPlayer = playerX;
-            losePlayer = playerO;
+            winPlayer = playerX.name;
+            losePlayer = playerO.name;
             playerX.winCount();
             playerO.loseCount();
+            displayController.displayResult(winPlayer, " Win")
             finishGame = true;
         } else if (result == playerO){
             console.log("Win PlayerO");
-            winPlayer = playerO;
-            losePlayer = playerX;
+            winPlayer = playerO.name;
+            losePlayer = playerX.name;
             playerO.winCount();
             playerX.loseCount();
+            displayController.displayResult(winPlayer, " Win")
             finishGame = true;
         } else if(playsCont == 0 ) {
             finishGame = true;
             playerX.tieCount();
             playerO.tieCount();
-            console.log("Empate");
+            displayController.displayResult("", " Tie")
         }
     }
     function winCondition (array,one,two,three) {
@@ -69,35 +73,27 @@ const gameBoard = (function() {
     function winnerCheck(player) {
         switch (true) {
             case winCondition(player.indexArray,0,1,2):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             case winCondition(player.indexArray,3,4,5):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             case winCondition(player.indexArray,6,7,8):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             case winCondition(player.indexArray,0,3,6):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             case winCondition(player.indexArray,1,4,7):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             case winCondition(player.indexArray,2,5,8):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             case winCondition(player.indexArray,0,4,8):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             case winCondition(player.indexArray,2,4,6):
-                displayController.displayResult(player.name,"Win")
                 return player
                 break;
             default:
@@ -142,6 +138,18 @@ const gameBoard = (function() {
 const displayController = (function() {
     const gameboardGrid = document.querySelector(".gameboard");
     const playerResult = document.querySelector(".playerResult");
+    const resetButton = document.querySelector(".resetBtn");
+
+    resetButton.addEventListener("click",resetGame)
+    
+    function resetGame() {
+        gameBoard.board.fill("");
+        while (gameboardGrid.firstChild) {
+            gameboardGrid.removeChild(gameboardGrid.firstChild)
+        }
+        console.log(gameBoard.board);
+        displayBoard(gameBoard.board)
+    }
 
     function displayResult(player,result){
         playerResult.textContent = player + result;
