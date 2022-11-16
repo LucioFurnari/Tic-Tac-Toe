@@ -53,6 +53,7 @@ const gameBoard = (function() {
 
     function checkResult(result) {
         if(result == playerX){
+            console.log(result);
             winPlayer = playerX.name;
             losePlayer = playerO.name;
             playerX.winCount();
@@ -79,34 +80,14 @@ const gameBoard = (function() {
     }
 
     function winnerCheck(player) {
-        switch (true) {
-            case winCondition(player.indexArray,0,1,2):
-                return player
-                break;
-            case winCondition(player.indexArray,3,4,5):
-                return player
-                break;
-            case winCondition(player.indexArray,6,7,8):
-                return player
-                break;
-            case winCondition(player.indexArray,0,3,6):
-                return player
-                break;
-            case winCondition(player.indexArray,1,4,7):
-                return player
-                break;
-            case winCondition(player.indexArray,2,5,8):
-                return player
-                break;
-            case winCondition(player.indexArray,0,4,8):
-                return player
-                break;
-            case winCondition(player.indexArray,2,4,6):
-                return player
-                break;
-            default:
-                break;
-        }
+        const winPositions = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+        let winner;
+        winPositions.forEach(pos=> {
+            if(winCondition(player.indexArray,pos[0],pos[1],pos[2])){
+                winner = player; 
+            }
+        })
+        return winner
     }
 
     function gameCheck(index,markerPlayer) {
@@ -131,7 +112,6 @@ const gameBoard = (function() {
                 board[i] = marker;
                 playsCont = playsCont - 1;
                 gameCheck(i,marker);
-                console.log(playerX.indexArray);
                 displayController.displayMarker(marker,markStyle,event);
                 changeMarker = !changeMarker;
                 }
