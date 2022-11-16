@@ -1,6 +1,6 @@
-function Player(name,marker,playerClass,indexArray) {
-    let win = 0;
-
+function Player(marker,playerClass,indexArray) {
+    let win = 0;  
+    let name = "";
     return {
         name,
         marker,
@@ -15,11 +15,15 @@ function Player(name,marker,playerClass,indexArray) {
         resetWinCount: function() {
             this.win = 0;
         },
+        changeName: function(name) {
+            console.log("test");
+            this.name = name;
+        },
         win,
     }
 }
-const playerX = Player("Player One","X","cross",[]);
-const playerO = Player("Player Two","O","circle",[]);
+const playerX = Player("X","cross",[]);
+const playerO = Player("O","circle",[]);
 
 /*--------------------- Logic Module ----------------------------*/
 
@@ -147,23 +151,38 @@ const displayController = (function() {
     const boardOverlay = document.querySelector(".overlay");
     const resultBoard = document.querySelector(".result-board");
 
-    document.querySelector(".playerOneName").textContent = playerX.name;
-    document.querySelector(".playerTwoName").textContent = playerO.name;
-    document.querySelector(".playerOneScore").textContent = playerX.win;
-    document.querySelector(".playerTwoScore").textContent = playerO.win;
+    const formOverlay = document.querySelector(".form-overlay");
+    const formContainer = document.querySelector(".form-container");
+    const playerForm = document.querySelector(".names-form");
+    displayPlayerInfo()
+
+    playerForm.addEventListener("submit",(event) => {
+        event.preventDefault()
+        playerX.changeName(document.querySelector("input[name=player-one]").value)
+        playerO.changeName(document.querySelector("input[name=player-two]").value)
+        formOverlay.classList.remove("active")
+        formContainer.classList.remove("active")
+        displayPlayerInfo()
+    })
 
     resetButton.addEventListener("click",() => {
         resetGame()
         playerX.resetWinCount();
         playerO.resetWinCount();
-        document.querySelector(".playerOneScore").textContent = playerX.win;
-        document.querySelector(".playerTwoScore").textContent = playerO.win;
+        displayPlayerInfo()
     })
     boardOverlay.addEventListener("click",() => {
         boardOverlay.classList.remove("active");
         resultBoard.classList.remove("active");
         resetGame()
     })
+
+    function displayPlayerInfo(){
+        document.querySelector(".playerOneName").textContent = playerX.name;
+        document.querySelector(".playerTwoName").textContent = playerO.name;
+        document.querySelector(".playerOneScore").textContent = playerX.win;
+        document.querySelector(".playerTwoScore").textContent = playerO.win;
+    }
     function resetGame() {
         gameBoard.resetGameVariables()
         while (gameboardGrid.firstChild) {
@@ -176,8 +195,7 @@ const displayController = (function() {
         boardOverlay.classList.add("active");
         resultBoard.classList.add("active");
         playerResult.textContent = player + result;
-        document.querySelector(".playerOneScore").textContent = playerX.win;
-        document.querySelector(".playerTwoScore").textContent = playerO.win;
+        displayPlayerInfo()
     }
     
     function displayMarker(mark,style,event) {
