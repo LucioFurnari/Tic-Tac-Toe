@@ -111,7 +111,7 @@ const gameBoard = (function() {
 /*--------------------- Visual Module ----------------------------*/
 
 const displayController = (function() {
-    const gameboardGrid = document.querySelector(".gameboard");
+    const gameBoardGrid = document.querySelector(".gameboard");
     const playerResult = document.querySelector(".playerResult");
     const resetButton = document.querySelector(".resetBtn");
 
@@ -151,8 +151,8 @@ const displayController = (function() {
     }
     function resetGame() {
         gameBoard.resetGameVariables()
-        while (gameboardGrid.firstChild) {
-            gameboardGrid.removeChild(gameboardGrid.firstChild)
+        while (gameBoardGrid.firstChild) {
+            gameBoardGrid.removeChild(gameBoardGrid.firstChild)
         }
         displayBoard(gameBoard.board)
     }
@@ -176,7 +176,7 @@ const displayController = (function() {
             square.addEventListener("click",(event) => {
                 gameBoard.addMarker(event,playerX,playerO) 
             })
-            gameboardGrid.appendChild(square);
+            gameBoardGrid.appendChild(square);
         })
     }
     displayBoard(gameBoard.board)
