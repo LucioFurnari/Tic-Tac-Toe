@@ -49,7 +49,7 @@ table {
 
 /*---------------------------------------*/
 :root {
-	--boardBackgroundColor:rgb(25,25,25);
+	--boardBackgroundColor:rgb(30, 30, 30);
 }
 
 
@@ -74,27 +74,44 @@ body {
 	gap: 0.5rem;
 }
 .square {
-    background-color: var(--boardBackgroundColor);
     border: 0.4rem solid black;
 	border-radius: 1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transition: all 0.1s;
 }	
 .cross {
+	background: linear-gradient(180deg, rgba(50, 50, 50, 0.2) 0%, 
+	rgba(90, 90, 90, 0.2) 70%, 
+	rgba(0, 213, 255, 0.2) 100%);
+	backdrop-filter: blur(20px);
 	text-shadow: rgb(0, 213, 255) 1px 0 20px;
 	color: rgb(0, 213, 255);
 	border: 0.4rem solid rgb(0, 213, 255);
-	box-shadow:rgb(0, 213, 255) 1px 0 20px;
+	/* box-shadow:rgb(0, 213, 255) 1px 0 20px; */
+	box-shadow:5px 5px 5px inset rgb(25,25,25),
+				-5px 1px 5px inset rgb(25,25,25),
+				1px -5px 20px inset rgb(0, 213, 255),
+				rgb(0, 213, 255) 1px 0 20px;
+	
 	font-size: 10rem;
 	text-align: center;
 	position: relative;
 }
 .circle {
+	background: linear-gradient(180deg, rgba(50, 50, 50, 0.2) 0%, 
+	rgba(90, 90, 90, 0.2) 70%, 
+	rgba(234, 0, 255,0.2) 100%);
+	backdrop-filter: blur(20px);
 	text-shadow: rgb(234, 0, 255) 1px 0 20px;
 	color: rgb(234, 0, 255);
 	border: 0.4rem solid rgb(234, 0, 255);
-	box-shadow:rgb(234, 0, 255) 1px 0 20px;
+	/* box-shadow:rgb(234, 0, 255) 1px 0 20px; */
+	box-shadow:5px 5px 5px inset rgb(25,25,25),
+				-5px 1px 5px inset rgb(25,25,25),
+				1px -5px 20px inset rgb(234, 0, 255),
+				rgb(234, 0, 255) 1px 0 20px;
 	font-size: 10rem;
 	text-align: center;
 	position: relative;
@@ -107,7 +124,7 @@ body {
 	width: 100%;
 	height:1rem;
 
-	filter: blur(0.1rem);
+	filter: blur(0.3rem);
 }
 
 .circle::before {
@@ -124,7 +141,7 @@ body {
 /*---------------------------- Score Board ----------------------------*/
 .score-board {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 	padding: 2rem;
 	width: 600px;
@@ -141,6 +158,7 @@ body {
 	min-width: 200px;
 }
 .resetBtn {
+	position: relative;
 	padding: 1rem 2rem;
 	border: 2px solid rgb(234, 0, 255);
 	border-radius: 0.2rem;
@@ -152,7 +170,19 @@ body {
 .resetBtn:hover {
 	background-color: rgb(234, 0, 255);
 	color: var(--boardBackgroundColor);
+	box-shadow:rgb(234, 0, 255) 1px 0px 20px;
 }
+.resetBtn:hover::after{
+	position: absolute;
+	content: "";
+	bottom: -20px;
+	left: 0;
+	width: 100%;
+	height: 1rem;
+	transform: perspective(2rem) rotateX(40deg) scale(1.3);
+	filter: blur(0.3rem);
+	background-color: rgb(234, 0, 255);
+} 
 
 /*---------------------------- Overlay ----------------------------*/
 
