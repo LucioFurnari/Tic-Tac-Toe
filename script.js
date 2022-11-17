@@ -34,11 +34,8 @@ const gameBoard = (function() {
     let changeMarker = true;
     let finishGame = false;
     let winPlayer;
-    let losePlayer;
     let playsCont = 9;
 
-    let playerOneIndexArray = []
-    let playerTwoIndexArray = [];
     
     function resetGameVariables() {
         board.fill("")
@@ -47,21 +44,17 @@ const gameBoard = (function() {
         // changeMarker = true;
         finishGame = false;
         winPlayer = undefined;
-        losePlayer = undefined;
         playsCont = 9;
     }
 
     function checkResult(result) {
         if(result == playerX){
-            console.log(result);
             winPlayer = playerX.name;
-            losePlayer = playerO.name;
             playerX.winCount();
             displayController.displayResult(winPlayer, " Win")
             finishGame = true;
         } else if (result == playerO){
             winPlayer = playerO.name;
-            losePlayer = playerX.name;
             playerO.winCount();
             displayController.displayResult(winPlayer, " Win")
             finishGame = true;
