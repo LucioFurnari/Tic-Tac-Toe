@@ -150,6 +150,7 @@ body {
 .score-board p, span {
 	font-size: 2rem;
 	padding: 1rem;
+	text-shadow:rgb(234, 0, 255) 1px 0 20px;
 }
 .score-board div {
 	display: flex;
