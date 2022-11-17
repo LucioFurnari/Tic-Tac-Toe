@@ -47,7 +47,7 @@ const gameBoard = (function() {
         playsCont = 9;
     }
 
-    function checkResult(result) {
+    function getResult(result) {
         if(result){
             result.winCount();
             displayController.displayResult(result.name, " Win")
@@ -80,10 +80,10 @@ const gameBoard = (function() {
     function gameCheck(index,markerPlayer) {
         if(markerPlayer == playerX.marker) {
             playerX.indexArray.push(index)
-            checkResult(winnerCheck(playerX))
+            getResult(winnerCheck(playerX))
         } else if (markerPlayer == playerO.marker) {
             playerO.indexArray.push(index)
-            checkResult(winnerCheck(playerO))
+            getResult(winnerCheck(playerO))
         }
     }
 
