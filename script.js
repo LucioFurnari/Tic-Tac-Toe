@@ -48,15 +48,9 @@ const gameBoard = (function() {
     }
 
     function checkResult(result) {
-        if(result == playerX){
-            winPlayer = playerX.name;
-            playerX.winCount();
-            displayController.displayResult(winPlayer, " Win")
-            finishGame = true;
-        } else if (result == playerO){
-            winPlayer = playerO.name;
-            playerO.winCount();
-            displayController.displayResult(winPlayer, " Win")
+        if(result){
+            result.winCount();
+            displayController.displayResult(result.name, " Win")
             finishGame = true;
         } else if(playsCont == 0 ) {
             finishGame = true;
