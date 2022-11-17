@@ -121,7 +121,6 @@ const displayController = (function() {
     const formOverlay = document.querySelector(".form-overlay");
     const formContainer = document.querySelector(".form-container");
     const playerForm = document.querySelector(".names-form");
-    displayPlayerInfo()
 
     playerForm.addEventListener("submit",(event) => {
         event.preventDefault()
@@ -180,7 +179,8 @@ const displayController = (function() {
             gameboardGrid.appendChild(square);
         })
     }
+    displayBoard(gameBoard.board)
+    displayPlayerInfo()
     return {displayBoard,displayMarker,displayResult}
 })()
 
-displayController.displayBoard(gameBoard.board)
