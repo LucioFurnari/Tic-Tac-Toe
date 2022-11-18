@@ -100,13 +100,16 @@ const gameBoard = (function() {
                 playsCont = playsCont - 1;
                 gameCheck(i,marker);
                 displayController.displayMarker(marker,markStyle,event);
-                changeMarker = !changeMarker;
+                botController.gameBot(board,playerOne,playerTwo,gameCheck)
+                playsCont = playsCont - 1;
+                // changeMarker = !changeMarker;
                 }
             }})
         }
     }
     return {board, addMarker, resetGameVariables}
 })()
+
 
 /*--------------------- Visual Module ----------------------------*/
 
@@ -184,3 +187,36 @@ const displayController = (function() {
     return {displayBoard,displayMarker,displayResult}
 })()
 
+/*--------------------- IA Module ----------------------------*/
+
+const botController = (function(){
+    function getRandomInt(min,max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    function gameBot(board,playerOne,playerTwo,gameCheckFunction) {
+        const gameBoardSquares = document.querySelectorAll(".square");
+        let indexArray = []
+        for(let i=0; i < board.length; i++){
+            if(board[i] != playerOne.marker && board[i] != playerTwo.marker){
+                indexArray.push(i)
+            }
+        }
+        let nRandom = getRandomInt(indexArray[0],indexArray.length);
+
+        let index = indexArray[nRandom]
+
+        gameBoardSquares.forEach((square) => {
+            if(square.getAttribute("number") == index){
+                board[index] = playerTwo.marker;
+                gameCheckFunction(index,playerTwo.marker);
+                square.classList.add(playerTwo.playerClass)
+                square.textContent = playerTwo.marker
+        }})
+        // let index = getRandomInt(9)
+        // while(board[index] == playerOne.marker || board[index] == playerTwo.marker){
+            // index = getRandomInt(9)
+    }
+    return {gameBot}
+}())
