@@ -104,7 +104,7 @@ const gameBoard = (function() {
                 playsCont = playsCont - 1;
                 gameCheck(i,marker);
                 displayController.displayMarker(marker,markStyle,event);
-                if(botActive) {
+                if(botActive && !finishGame) {
                     console.log("probando");
                     botController.gameBot(board,playerOne,playerTwo,gameCheck)
                     playsCont = playsCont - 1;
