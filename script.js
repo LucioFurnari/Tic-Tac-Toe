@@ -35,7 +35,11 @@ const gameBoard = (function() {
     let finishGame = false;
     let winPlayer;
     let playsCont = 9;
+    let botActive = false;
 
+    function changeBotActive(value) {
+        botActive = value;
+    }
     
     function resetGameVariables() {
         board.fill("")
@@ -100,14 +104,18 @@ const gameBoard = (function() {
                 playsCont = playsCont - 1;
                 gameCheck(i,marker);
                 displayController.displayMarker(marker,markStyle,event);
-                botController.gameBot(board,playerOne,playerTwo,gameCheck)
-                playsCont = playsCont - 1;
-                // changeMarker = !changeMarker;
+                if(botActive) {
+                    console.log("probando");
+                    botController.gameBot(board,playerOne,playerTwo,gameCheck)
+                    playsCont = playsCont - 1;
+                } else {
+                    changeMarker = !changeMarker;
+                } 
                 }
             }})
         }
     }
-    return {board, addMarker, resetGameVariables}
+    return {board, addMarker, resetGameVariables,changeBotActive}
 })()
 
 
@@ -124,6 +132,24 @@ const displayController = (function() {
     const formOverlay = document.querySelector(".form-overlay");
     const formContainer = document.querySelector(".form-container");
     const playerForm = document.querySelector(".names-form");
+
+    const botSelector = document.querySelector(".bot-select");
+    const playerTwoLabel = document.querySelector(".player-two-label");
+
+    let selectLabel = false;
+    botSelector.addEventListener("click",() => {
+        selectLabel = !selectLabel;
+        if(selectLabel) {
+            playerTwoLabel.textContent = "Bot";
+            botSelector.classList.add("bot-active")
+            gameBoard.changeBotActive(true);
+        } else {
+            playerTwoLabel.textContent = "Player Two";
+            botSelector.classList.remove("bot-active")
+            gameBoard.changeBotActive(false);
+        }
+        
+    })
 
     playerForm.addEventListener("submit",(event) => {
         event.preventDefault()
@@ -195,7 +221,17 @@ const botController = (function(){
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min);
     }
+    function checkWinnerPosition(userPlayer,botPlayer,one,two,three) {
+            let choiceOne = userPlayer.includes(one)
+            let choiceTwo = userPlayer.includes(two)
+            let choiceThree = userPlayer.includes(three)
+            if (choiceOne) {
+                console.log("probando");
+                return two;
+            }
+    }
     function gameBot(board,playerOne,playerTwo,gameCheckFunction) {
+        const winnerPositions = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
         const gameBoardSquares = document.querySelectorAll(".square");
         let indexArray = []
         for(let i=0; i < board.length; i++){
@@ -203,8 +239,10 @@ const botController = (function(){
                 indexArray.push(i)
             }
         }
-        let nRandom = getRandomInt(indexArray[0],indexArray.length);
-
+        // let testvalue = winnerPositions.forEach(elem => checkWinnerPosition(playerOne.indexArray,elem[0],elem[1],elem[2]))
+        // console.log(testvalue);
+        // console.log(playerOne.indexArray);
+        let nRandom = getRandomInt(0,indexArray.length);
         let index = indexArray[nRandom]
 
         gameBoardSquares.forEach((square) => {
@@ -214,9 +252,6 @@ const botController = (function(){
                 square.classList.add(playerTwo.playerClass)
                 square.textContent = playerTwo.marker
         }})
-        // let index = getRandomInt(9)
-        // while(board[index] == playerOne.marker || board[index] == playerTwo.marker){
-            // index = getRandomInt(9)
     }
     return {gameBot}
 }())
