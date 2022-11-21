@@ -272,6 +272,7 @@ body {
 .names-form ul {
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 	width: 100%;
 	margin-bottom: 2rem;
 }
@@ -279,11 +280,22 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: 270px;
+}
+.names-form img {
+	width: 4rem;
+	transition: all 0.2s;
+}
+.names-form img:hover {
+	filter: drop-shadow(1px 1px 5px rgb(234, 0, 255));
+}
+.bot-active {
+	filter: drop-shadow(1px 1px 5px rgb(234, 0, 255));
 }
 .names-form li label {
 	padding: 1rem;
 	color: rgb(234, 0, 255);
-	text-shadow: rgb(234, 0, 255) 1px 0 20px;;
+	text-shadow: rgb(234, 0, 255) 1px 0 20px;
 }
 
 .active {
