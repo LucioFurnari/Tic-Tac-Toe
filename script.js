@@ -45,7 +45,7 @@ const gameBoard = (function() {
         board.fill("")
         playerX.resetArray();
         playerO.resetArray();
-        // changeMarker = true;
+        changeMarker = true;
         finishGame = false;
         winPlayer = undefined;
         playsCont = 9;
